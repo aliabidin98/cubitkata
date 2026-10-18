@@ -1,0 +1,6 @@
+{
+  "name": "Cubit Kata - Game AR Edukasi",
+  "description": "Game edukasi interaktif berbasis Augmented Reality (deteksi cubitan tangan & mouse) dengan mode solo, tanding 2 pemain, dan manajemen soal kustom.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

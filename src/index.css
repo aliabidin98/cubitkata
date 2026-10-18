@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+@layer utilities {
+  .btn-tactile-teal {
+    background-color: #0d9488;
+    color: #ffffff;
+    border: 2px solid #0f766e;
+    box-shadow: 0 4px 0 #0f766e;
+    transition: all 0.1s ease;
+  }
+  .btn-tactile-teal:hover {
+    background-color: #0f766e;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 0 #0f766e;
+  }
+  .btn-tactile-teal:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 #0f766e;
+  }
+
+  .btn-tactile-orange {
+    background-color: #ea580c;
+    color: #ffffff;
+    border: 2px solid #c2410c;
+    box-shadow: 0 4px 0 #9a3412;
+    transition: all 0.1s ease;
+  }
+  .btn-tactile-orange:hover {
+    background-color: #c2410c;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 0 #9a3412;
+  }
+  .btn-tactile-orange:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 #9a3412;
+  }
+
+  .btn-tactile-white {
+    background-color: #ffffff;
+    color: #1e293b;
+    border: 2px solid #cbd5e1;
+    box-shadow: 0 4px 0 #94a3b8;
+    transition: all 0.1s ease;
+  }
+  .btn-tactile-white:hover {
+    background-color: #f8fafc;
+    border-color: #94a3b8;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 0 #94a3b8;
+  }
+  .btn-tactile-white:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 #94a3b8;
+  }
+}
