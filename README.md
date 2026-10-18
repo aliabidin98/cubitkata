@@ -4,24 +4,46 @@ Game edukasi interaktif berbasis **Augmented Reality (AR Hand-Tracking)** menggu
 
 ---
 
-## 🚀 Cara Deploy ke GitHub Pages (Otomatis & Tanpa Blank)
+## 🚀 Panduan Deploy ke GitHub Pages (100% Anti-Blank & Lancar)
 
-Proyek ini telah dikonfigurasi dengan:
-1. `base: './'` pada `vite.config.ts` sehingga seluruh aset JavaScript & CSS dimuat secara relatif (`./assets/...`), **menghilangkan masalah layar putih/blank** pada subdomain `https://<username>.github.io/<repo-name>/`.
-2. Otomatisasi generate `dist/404.html` agar routing dan refresh halaman pada GitHub Pages tetap berjalan mulus.
-3. Alur kerja **GitHub Actions** siap pakai di `.github/workflows/deploy.yml`.
+Aplikasi ini sudah dioptimalkan agar dapat dijalankan dan di-deploy ke GitHub Pages tanpa kendala layar putih (*blank screen*). Anda dapat memilih salah satu dari **2 cara mudah** berikut:
 
-### Langkah-langkah Deploy:
-1. **Push proyek ke GitHub**:
+---
+
+### Cara 1: Menggunakan GitHub Actions (Sangat Disarankan - Otomatis)
+
+1. **Push kode ke GitHub**:
    ```bash
    git add .
-   git commit -m "Siap deploy ke GitHub Pages"
+   git commit -m "Deploy Cubit Kata ke GitHub Pages"
    git push origin main
    ```
-2. Buka repository Anda di GitHub, lalu klik menu **Settings** > **Pages** (di bilah samping kiri).
-3. Pada bagian **Build and deployment** > **Source**, pilih opsi:
+2. Buka repositori Anda di GitHub.
+3. Klik tab **Settings** (Pengaturan) di bilah atas.
+4. Pilih menu **Pages** di kolom sebelah kiri.
+5. Pada bagian **Build and deployment** > **Source**, pilih opsi:
    👉 **GitHub Actions**
-4. Selesai! GitHub Actions akan otomatis meng-compile dan mempublikasikan aplikasi Anda secara langsung. Tautan web publik akan tampil di tab *Actions* atau halaman *Settings > Pages*.
+6. Selesai! GitHub Actions akan otomatis mengompilasi dan menerbitkan website Anda. Alamat tautan web dapat dilihat di menu **Pages** tersebut.
+
+---
+
+### Cara 2: Menggunakan Folder `/docs` (Langsung & Tanpa Perlu Setup Actions)
+
+Di dalam repositori ini, folder `/docs` sudah berisi file bundle web statis siap pakai.
+1. Buka repositori Anda di GitHub > **Settings** > **Pages**.
+2. Pada **Source**, pilih **Deploy from a branch**.
+3. Pada **Branch**, pilih `main` dan pilih folder:
+   👉 **/docs**
+4. Klik tombol **Save**.
+5. Website akan langsung aktif dalam beberapa detik tanpa perlu proses kompilasi ulang!
+
+---
+
+### 🛡️ Solusi Masalah Layar Putih (Blank Screen) yang Telah Diterapkan:
+1. **Lockfile & Peer Dependency Fixed:** Memperbaiki versi `esbuild` dan menyertakan `package-lock.json` sehingga alur kerja GitHub Actions tidak gagal saat tahap instalasi dependensi.
+2. **Trailing Slash Auto-Normalizer:** Skrip otomatis di `index.html` yang memastikan URL repositori GitHub Pages selalu memiliki garis miring akhir (`/`), mencegah kegagalan aset relatif (`./assets/...`).
+3. **Safe Storage & Fallback Splash:** Proteksi *error boundary* dan *splash loader* bertema Cubit Kata agar tidak terjadi layar kosong saat inisialisasi aplikasi.
+4. **Non-blocking MediaPipe:** Pemuatan pustaka deteksi tangan MediaPipe secara `defer` dengan deteksi kesiapan otomatis, serta *graceful fallback* ke mode mouse/layar sentuh jika kamera belum aktif.
 
 ---
 
@@ -39,20 +61,20 @@ npm run dev
 
 Buka peramban di `http://localhost:3000`.
 
-Untuk membangun bundle statis produksi:
+Untuk membuat bundle produksi mandiri:
 ```bash
 npm run build
 ```
-Hasil build akan berada di folder `dist/` dan siap diunggah ke hosting statis mana pun (GitHub Pages, Vercel, Netlify, cPanel, dll).
+File hasil build akan otomatis tersimpan di folder `dist/` dan `docs/`.
 
 ---
 
-## 🔑 Informasi Akses & Mode Permainan
+## 🔑 Akses & Fitur Permainan
 
-- **Kode Versi Penuh:** `CUBITOKE`
-  - Membuka Mode Mandiri (Solo), Mode Tanding 2 Pemain (Battle Split-Screen), dan Menu Kelola Soal (Ekspor/Impor Excel).
+- **Kode Aktivasi Versi Penuh:** `CUBITOKE`
+  - Membuka Mode Mandiri (Solo), Mode Tanding 2 Pemain (Battle Split-Screen), dan Menu Terpadu Kelola Bank Soal (Impor/Ekspor Excel).
 - **Mode Demo:**
-  - Dapat langsung dimainkan tanpa kode aktivasi (hanya Mode 1 Pemain / Solo).
+  - Dapat langsung dimainkan tanpa kode aktivasi (khusus Mode 1 Pemain / Solo).
 
 ---
 

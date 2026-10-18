@@ -9,16 +9,57 @@
     <meta property="og:description" content="Game edukasi interaktif berbasis Augmented Reality (deteksi cubitan tangan & mouse) dengan mode solo, tanding 2 pemain, dan manajemen soal kustom." />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Trailing slash normalizer for GitHub Pages relative asset paths -->
+    <script>
+      (function() {
+        try {
+          var p = window.location.pathname;
+          if (p.length > 1 && !p.endsWith('/') && !p.split('/').pop().includes('.')) {
+            window.location.replace(p + '/' + window.location.search + window.location.hash);
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- Global error catcher to prevent silent white screen -->
+    <script>
+      window.addEventListener('error', function(e) {
+        try {
+          var msg = (e && e.message) ? String(e.message) : '';
+          if (msg.indexOf('Failed to resolve module specifier') !== -1 || msg.indexOf('Unexpected token') !== -1) {
+            var root = document.getElementById('root');
+            if (root) {
+              root.innerHTML = '<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:#0f172a;color:#fff;font-family:sans-serif;padding:24px;text-align:center;">' +
+                '<div style="max-width:480px;background:#1e293b;padding:28px;border-radius:24px;border:2px solid #334155;box-shadow:0 8px 30px rgba(0,0,0,0.5);">' +
+                '<div style="font-size:40px;margin-bottom:12px;">👌</div>' +
+                '<h2 style="font-size:20px;font-weight:900;margin:0 0 10px 0;">Pengaturan Deploy GitHub Pages</h2>' +
+                '<p style="font-size:13px;color:#94a3b8;line-height:1.6;margin:0 0 16px 0;">Untuk menjalankan aplikasi di GitHub Pages, silakan buka <b>Settings &gt; Pages</b> di repositori Anda, lalu di menu <b>Source</b> pilih <b>GitHub Actions</b> (atau pilih folder <b>/docs</b>).</p>' +
+                '<a href="./docs/" style="display:inline-block;padding:10px 22px;background:#0d9488;color:#fff;border-radius:12px;font-weight:bold;text-decoration:none;font-size:13px;">Buka Versi /docs &rarr;</a>' +
+                '</div></div>';
+            }
+          }
+        } catch (err) {}
+      });
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <!-- MediaPipe Hands & Camera Utils for real-time hand pinch gesture recognition -->
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+    
+    <!-- MediaPipe Hands & Camera Utils for real-time hand pinch gesture recognition (deferred for fast non-blocking load) -->
+    <script defer src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
   </head>
   <body class="bg-slate-100 text-slate-800 antialiased select-none font-['Plus_Jakarta_Sans',sans-serif]">
-    <div id="root"></div>
+    <div id="root">
+      <!-- Branded Splash Screen while React mounts to prevent any white flash -->
+      <div style="min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #f1f5f9; color: #0f172a; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; text-align: center; padding: 24px;">
+        <div style="width: 58px; height: 58px; border-radius: 20px; background: #0d9488; color: white; display: flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 16px; border: 2px solid #0f766e; box-shadow: 0 4px 0 #0f766e;">👌</div>
+        <h1 style="font-size: 24px; font-weight: 900; margin: 0 0 6px 0; letter-spacing: -0.5px;">Cubit Kata</h1>
+        <p style="font-size: 13px; color: #64748b; font-weight: 600; margin: 0; max-width: 340px;">Memuat game AR edukasi interaktif...</p>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-

@@ -26,40 +26,59 @@ import {
   Instagram
 } from 'lucide-react';
 
+const safeStorage = {
+  get: (key: string): string | null => {
+    try {
+      return typeof window !== 'undefined' && window.localStorage ? localStorage.getItem(key) : null;
+    } catch {
+      return null;
+    }
+  },
+  set: (key: string, val: string): void => {
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        localStorage.setItem(key, val);
+      }
+    } catch {
+      // ignore
+    }
+  }
+};
+
 export default function App() {
   const [questions, setQuestions] = useState<Question[]>([]);
 
   // Authentication & Mode status ('unauthenticated' shows popup on load)
   const [authStatus, setAuthStatus] = useState<'demo' | 'activated' | 'unauthenticated'>(() => {
-    const saved = localStorage.getItem('cubit_kata_activation_status');
+    const saved = safeStorage.get('cubit_kata_activation_status');
     if (saved === 'activated') return 'activated';
     if (saved === 'demo') return 'demo';
     return 'unauthenticated';
   });
   const [isActivationModalOpen, setIsActivationModalOpen] = useState<boolean>(() => {
-    const saved = localStorage.getItem('cubit_kata_activation_status');
+    const saved = safeStorage.get('cubit_kata_activation_status');
     return saved !== 'activated' && saved !== 'demo';
   });
 
   const [gameMode, setGameMode] = useState<GameMode>('solo');
   const [inputMode, setInputMode] = useState<InputMode>(() => {
-    return (localStorage.getItem('cubit_kata_input_mode') as InputMode) || 'camera';
+    return (safeStorage.get('cubit_kata_input_mode') as InputMode) || 'camera';
   });
   const [targetScore, setTargetScore] = useState<number>(() => {
-    const saved = localStorage.getItem('cubit_kata_target_score');
+    const saved = safeStorage.get('cubit_kata_target_score');
     return saved ? parseInt(saved, 10) || 50 : 50;
   });
   const [pointsCorrect, setPointsCorrect] = useState<number>(() => {
-    const saved = localStorage.getItem('cubit_kata_points_correct');
+    const saved = safeStorage.get('cubit_kata_points_correct');
     return saved ? parseInt(saved, 10) || 10 : 10;
   });
   const [pointsWrong, setPointsWrong] = useState<number>(() => {
-    const saved = localStorage.getItem('cubit_kata_points_wrong');
+    const saved = safeStorage.get('cubit_kata_points_wrong');
     return saved !== null ? parseInt(saved, 10) : 5;
   });
 
   const [pinchSensitivity, setPinchSensitivity] = useState<number>(() => {
-    const saved = localStorage.getItem('cubit_kata_sensitivity');
+    const saved = safeStorage.get('cubit_kata_sensitivity');
     return saved ? parseFloat(saved) || 0.28 : 0.28;
   });
   const [isMirrored, setIsMirrored] = useState<boolean>(true);
@@ -93,27 +112,27 @@ export default function App() {
 
   const handleSetInputMode = (mode: InputMode) => {
     setInputMode(mode);
-    localStorage.setItem('cubit_kata_input_mode', mode);
+    safeStorage.set('cubit_kata_input_mode', mode);
   };
 
   const handleSetTargetScore = (score: number) => {
     setTargetScore(score);
-    localStorage.setItem('cubit_kata_target_score', score.toString());
+    safeStorage.set('cubit_kata_target_score', score.toString());
   };
 
   const handleSetPointsCorrect = (pts: number) => {
     setPointsCorrect(pts);
-    localStorage.setItem('cubit_kata_points_correct', pts.toString());
+    safeStorage.set('cubit_kata_points_correct', pts.toString());
   };
 
   const handleSetPointsWrong = (pts: number) => {
     setPointsWrong(pts);
-    localStorage.setItem('cubit_kata_points_wrong', pts.toString());
+    safeStorage.set('cubit_kata_points_wrong', pts.toString());
   };
 
   const handleSetSensitivity = (val: number) => {
     setPinchSensitivity(val);
-    localStorage.setItem('cubit_kata_sensitivity', val.toString());
+    safeStorage.set('cubit_kata_sensitivity', val.toString());
   };
 
   const handleToggleMute = () => {
@@ -143,7 +162,7 @@ export default function App() {
   const handleActivateCode = (code: string): boolean => {
     if (code.trim().toUpperCase() === 'CUBITOKE') {
       setAuthStatus('activated');
-      localStorage.setItem('cubit_kata_activation_status', 'activated');
+      safeStorage.set('cubit_kata_activation_status', 'activated');
       setIsActivationModalOpen(false);
       setHomeNotice('Aktivasi Berhasil! Semua fitur Versi Penuh telah terbuka 🎉');
       setTimeout(() => setHomeNotice(null), 4000);
@@ -155,7 +174,7 @@ export default function App() {
   // Demo Mode Selection Handler
   const handleSelectDemo = () => {
     setAuthStatus('demo');
-    localStorage.setItem('cubit_kata_activation_status', 'demo');
+    safeStorage.set('cubit_kata_activation_status', 'demo');
     setIsActivationModalOpen(false);
     setHomeNotice('Mode Demo Aktif: Menampilkan menu 1 Pemain (Solo).');
     setTimeout(() => setHomeNotice(null), 4000);

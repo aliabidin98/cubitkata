@@ -6,19 +6,24 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
-    base: './',
+    base: process.env.BASE_URL || './',
     plugins: [
       react(),
       tailwindcss(),
       {
-        name: 'generate-404-html',
+        name: 'generate-404-and-docs',
         closeBundle() {
           try {
-            const distIndex = path.resolve(process.cwd(), 'dist/index.html');
-            const dist404 = path.resolve(process.cwd(), 'dist/404.html');
+            const distDir = path.resolve(process.cwd(), 'dist');
+            const distIndex = path.resolve(distDir, 'index.html');
+            const dist404 = path.resolve(distDir, '404.html');
             if (fs.existsSync(distIndex)) {
               fs.copyFileSync(distIndex, dist404);
             }
+
+            // Also mirror dist to docs for users who deploy via "main branch -> /docs folder"
+            const docsDir = path.resolve(process.cwd(), 'docs');
+            fs.cpSync(distDir, docsDir, { recursive: true });
           } catch (e) {
             // ignore
           }
